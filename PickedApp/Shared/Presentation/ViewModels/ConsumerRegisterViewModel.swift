@@ -77,10 +77,10 @@ final class ConsumerRegisterViewModel {
             return "All fields are required."
         }
         if !email.contains("@") || !email.contains(".") {
-            return "Invalid email or password."
+            return "Invalid email."
         }
         if password.count < 6 {
-            return "Invalid email or password."
+            return "Invalid password."
         }
         return nil
     }
