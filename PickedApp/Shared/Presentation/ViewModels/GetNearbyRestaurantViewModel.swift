@@ -72,4 +72,15 @@ final class GetNearbyRestaurantViewModel {
     func selectRestaurant(_ restaurant: RestaurantModel) {
         selectedRestaurant = restaurant
     }
+    
+    @MainActor
+    func centerOnUserLocation() async {
+        do {
+            let coordinate = try await locationService.requestLocation()
+            updateCamera(to: coordinate)
+        } catch {
+            print("Error centering on user location: \(error)")
+        }
+    }
+
 }
