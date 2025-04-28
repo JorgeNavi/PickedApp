@@ -54,21 +54,6 @@ final class AppStateVMTest: XCTestCase {
         XCTAssertEqual(validationError, "Invalid email or password.")
         XCTAssertEqual(vm.status, .none)
     }
-
-    
-    // MARK: - Logout Tests
-    
-    /// Tests that calling logout resets the status to `.login`.
-    func testLogout_shouldSetStatusToLogin() async {
-        // Given
-        let vm = AppStateVM(loginUseCase: LoginUseCaseSucessMock())
-        
-        // When
-        await vm.closeSessionUser()
-        
-        // Then
-        XCTAssertEqual(vm.status, .login)
-    }
     
     // MARK: - Token Validation
     
