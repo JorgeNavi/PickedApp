@@ -12,37 +12,56 @@ struct LocationMapView: View {
     }
     
     var body: some View {
-        Map(position: $viewModel.cameraPosition) {
-            
-            // Marcador que muestra la ubicación actual del usuario.
-            UserAnnotation()
-            
-            // Marcadores de cada restaurante en el mapa.
-            ForEach(viewModel.restaurantsNearby) { restaurant in
-                Annotation(restaurant.name, coordinate: restaurant.coordinate) {
-                    Button {
-                        viewModel.selectRestaurant(restaurant) // Selecciona un restaurante al pulsar.
-                    } label: {
-                        RestaurantAnnotationView(restaurant: restaurant) // Vista personalizada del marcador.
+        NavigationStack{
+            Map(position: $viewModel.cameraPosition) {
+                
+                UserAnnotation()
+                
+                ForEach(viewModel.restaurantsNearby) { restaurant in
+                    Annotation(restaurant.name, coordinate: restaurant.coordinate) {
+                        Button {
+                            viewModel.selectRestaurant(restaurant)
+                        } label: {
+                            RestaurantAnnotationView(restaurant: restaurant)
+                        }
                     }
                 }
             }
-        }
-        .onAppear {
-            Task {
-             try await viewModel.loadData() // Carga ubicación y restaurantes al aparecer la vista.
+            .onAppear {
+                Task {
+                    try await viewModel.loadData()
+                }
             }
+            .sheet(item: $viewModel.selectedRestaurant) { restaurant in
+                RestaurantSelectedMapDetailView(restaurant: restaurant)
+                    .presentationDetents([.medium])
+            }
+            .mapControls {
+                MapCompass()
+            }
+            .ignoresSafeArea()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        Task {
+                            await viewModel.centerOnUserLocation()
+                        }
+                    } label: {
+                        Image(systemName: "location.fill")
+                            .font(.system(size: 16))
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(
+                                Circle()
+                                    .fill(Color.primaryColor)
+                                    .frame(width: 32, height: 32)
+                            )
+                    }
+                }
+            }
+            .navigationTitle("Map")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .sheet(item: $viewModel.selectedRestaurant) { restaurant in
-            RestaurantSelectedMapDetailView(restaurant: restaurant) // Muestra detalle del restaurante seleccionado.
-                .presentationDetents([.medium])
-        }
-        .mapControls {
-            MapUserLocationButton() // Botón para centrar el mapa en la ubicación del usuario.
-            MapCompass() // Muestra una brújula en el mapa.
-        }
-        .edgesIgnoringSafeArea(.top) // Extiende el mapa hasta los bordes superiores.
-        .ignoresSafeArea() // Ignora todos los márgenes seguros para el mapa.
     }
 }
 
