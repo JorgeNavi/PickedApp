@@ -25,6 +25,7 @@ struct AppTabBarView: View {
             UserProfileView()
                 .tabBarItem(tab: .profile, selection: $tabSelection)
         }
+        .ignoresSafeArea(.keyboard)
     }
 }
 

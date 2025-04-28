@@ -46,9 +46,9 @@ struct LoginView: View {
                     // Email input field
                     IconTextFieldView(
                         iconName: "person.fill",
-                        placeholder: "Username",
+                        placeholder: "Email",
                         text: $email,
-                        keyboardType: .default
+                        keyboardType: .emailAddress
                     )
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
