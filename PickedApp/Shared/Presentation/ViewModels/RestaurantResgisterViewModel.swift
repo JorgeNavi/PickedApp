@@ -45,9 +45,20 @@ final class RestaurantResgisterViewModel {
         photo: Data?
     ) async throws -> String? {
         
-        guard !address.isEmpty else {
-            self.errorMessage = "La dirección no puede estar vacía"
-            return errorMessage
+        // Validar que todos los campos estén completos
+        if let validationError = validateFields(
+            email: email,
+            password: password,
+            restaurantName: restaurantName,
+            info: info,
+            address: address,
+            country: country,
+            city: city,
+            zipCode: zipCode,
+            name: name
+        ) {
+            self.errorMessage = validationError
+            return validationError
         }
         
         isLoading = true
@@ -95,9 +106,26 @@ final class RestaurantResgisterViewModel {
             }
             
         } catch {
+            self.appState.status = .error(error: "Something went wrong.")
             self.errorMessage = "Error al registrar el restaurante: \(error.localizedDescription)"
             return "Something went wrong."
         }
     }
-  
+    /// Función que valida que todos los campos estén llenos
+    private func validateFields(
+        email: String,
+        password: String,
+        restaurantName: String,
+        info: String,
+        address: String,
+        country: String,
+        city: String,
+        zipCode: String,
+        name: String
+    ) -> String? {
+        if email.isEmpty || password.isEmpty || restaurantName.isEmpty || info.isEmpty || address.isEmpty || country.isEmpty || city.isEmpty || zipCode.isEmpty || name.isEmpty {
+            return "All fields are required."
+        }
+        return nil
+    }
 }
