@@ -39,4 +39,30 @@ final class GetNearbyRestaurantsVMTest: XCTestCase {
             XCTFail("Unexpected error: \(error)")
         }
     }
+    
+    
+    func testRestaurantFilterWithEmptySearch() async throws {
+          try await viewModel.loadData()
+          
+          // Cuando el texto de búsqueda está vacío, debe devolver todos los restaurantes
+          XCTAssertEqual(viewModel.restaurantFilter.count, viewModel.restaurantsNearby.count)
+      }
+      
+      func testRestaurantFilterWithSearchText() async throws {
+          try await viewModel.loadData()
+          
+          viewModel.search = "Pizza"
+          let filteredRestaurants = viewModel.restaurantFilter
+          
+          XCTAssertTrue(filteredRestaurants.allSatisfy { $0.name.localizedStandardContains("Pizza") })
+      }
+
+      
+      func testUpdateCameraWhenCenterOnUserLocation() async {
+          let initialCameraPosition = viewModel.cameraPosition
+          
+          await viewModel.centerOnUserLocation()
+          
+          XCTAssertNotEqual(viewModel.cameraPosition, initialCameraPosition)
+      }
 }
