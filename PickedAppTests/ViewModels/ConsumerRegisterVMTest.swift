@@ -47,10 +47,10 @@ final class ConsumerRegisterVMTest: XCTestCase {
         XCTAssertEqual(viewModel.validateFields(name: "", email: validEmail, password: validPassword), "All fields are required.")
         
         // Assert that an error message appears for an invalid email format
-        XCTAssertEqual(viewModel.validateFields(name: "John", email: invalidEmail, password: validPassword), "Invalid email or password.")
+        XCTAssertEqual(viewModel.validateFields(name: "John", email: invalidEmail, password: validPassword), "Invalid email.")
         
         // Assert that an error message appears for short passwords
-        XCTAssertEqual(viewModel.validateFields(name: "John", email: validEmail, password: shortPassword), "Invalid email or password.")
+        XCTAssertEqual(viewModel.validateFields(name: "John", email: validEmail, password: shortPassword), "Invalid password.")
     }
     
     /// Tests a successful consumer registration process.
