@@ -28,7 +28,7 @@ struct RestaurantRegisterView: View {
     @State private var pickerItem: PhotosPickerItem? = nil
     @State private var selectedImage: Image? = nil
     @State private var selectedPhotoData: Data?
-
+    
     @State var viewModel: RestaurantResgisterViewModel
     
     init(appState: AppStateVM) {
@@ -72,11 +72,19 @@ struct RestaurantRegisterView: View {
                     )
                     
                     // Description field
-                    HStack {
+                    HStack(alignment: .top) {
                         Image(systemName: "note.text")
                             .foregroundStyle(.secondaryColor)
-                            .padding(.bottom, 110)
+                            .padding(.top, 12)
                         
+                        ZStack(alignment: .topLeading) {
+                            if info.isEmpty {
+                                Text("Description")
+                                    .foregroundColor(.gray)
+                                    .padding(.top, 12)
+                                    .padding(.leading, 8)
+                            }
+                        }
                         TextEditor(text: $info)
                             .frame(minHeight: 150)
                             .padding(5)
@@ -94,13 +102,22 @@ struct RestaurantRegisterView: View {
                     
                     // Image picker section
                     VStack {
-                        PhotosPicker(selection: $pickerItem, matching: .images) {
-                            VStack {
-                                Text("Take a photo or choose from gallery")
-                                    .foregroundStyle(Color.secondaryColor)
-                                Image(systemName: "photo.on.rectangle.angled")
-                                    .font(.system(size: 60))
-                                    .foregroundStyle(Color.secondaryColor)
+                        if let imageData = selectedPhotoData, let uiImage = UIImage(data: imageData) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 200, height: 200)
+                                .clipped()
+                                .cornerRadius(8)
+                        } else {
+                            PhotosPicker(selection: $pickerItem, matching: .images) {
+                                VStack {
+                                    Text("Take a photo or choose from gallery")
+                                        .foregroundStyle(Color.secondaryColor)
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                        .font(.system(size: 60))
+                                        .foregroundStyle(Color.secondaryColor)
+                                }
                             }
                         }
                     }
@@ -108,44 +125,45 @@ struct RestaurantRegisterView: View {
                     .frame(width: 200, height: 200)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
-                    
-                    CustomButtonView(title: "Register", color: .secondaryColor) {
-                        print("🔘 Botón presionado")
-                        
-                        
-                        Task {
-                            try await viewModel.restaurantRegister(
-                                email: email,
-                                password: password,
-                                role: "restaurant",
-                                restaurantName: restaurantName,
-                                info: info,
-                                address: address,
-                                country: country,
-                                city: city,
-                                zipCode: zipCode,
-                                name: name,
-                                photo: selectedPhotoData
-                            )
-                        }
-                    }
-                    
-                    
                 }
-                // Handle changes in the image picker
-                .onChange(of: pickerItem) { _, newItem in
+    
+                
+                CustomButtonView(title: "Register", color: .secondaryColor) {
+                    print("🔘 Botón presionado")
+                    
+                    
                     Task {
-                        if let selectedItem = newItem {
-                            do {
-                                // Load the selected photo data
-                                if let data = try await selectedItem.loadTransferable(type: Data.self) {
-                                    // Store the data in the selectedPhotoData variable
-                                    self.selectedPhotoData = data
-                                    print("Image loaded with size: \(data.count) bytes")
-                                }
-                            } catch {
-                                print("Error loading image: \(error)")
+                        try await viewModel.restaurantRegister(
+                            email: email,
+                            password: password,
+                            role: "restaurant",
+                            restaurantName: restaurantName,
+                            info: info,
+                            address: address,
+                            country: country,
+                            city: city,
+                            zipCode: zipCode,
+                            name: name,
+                            photo: selectedPhotoData
+                        )
+                    }
+                }
+                
+                
+            }
+            // Handle changes in the image picker
+            .onChange(of: pickerItem) { _, newItem in
+                Task {
+                    if let selectedItem = newItem {
+                        do {
+                            // Load the selected photo data
+                            if let data = try await selectedItem.loadTransferable(type: Data.self) {
+                                // Store the data in the selectedPhotoData variable
+                                self.selectedPhotoData = data
+                                print("Image loaded with size: \(data.count) bytes")
                             }
+                        } catch {
+                            print("Error loading image: \(error)")
                         }
                     }
                 }
@@ -157,6 +175,7 @@ struct RestaurantRegisterView: View {
         .background(.primaryColor)
     }
 }
+
 
 
 #Preview {

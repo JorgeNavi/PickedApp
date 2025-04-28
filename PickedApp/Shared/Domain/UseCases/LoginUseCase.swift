@@ -55,6 +55,7 @@ final class LoginUseCase: LoginUseCaseProtocol {
 final class LoginUseCaseSucessMock: LoginUseCaseProtocol {
     var repo: LoginRepositoryProtocol
     var token: String = ""
+    var status = Status.none
     
     init(repo: LoginRepositoryProtocol = DefaultLoginRepositoryMock()) {
         self.repo = repo
@@ -68,6 +69,7 @@ final class LoginUseCaseSucessMock: LoginUseCaseProtocol {
     
     func logout() async {
         token = ""
+        status = .login
     }
     
     func validateToken() async -> Bool {

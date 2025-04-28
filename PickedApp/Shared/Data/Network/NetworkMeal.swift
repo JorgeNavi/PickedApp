@@ -30,7 +30,7 @@ final class NetworkMeal: NetworkMealProtocol {
         
         //Añadir token JWT para autenticación
         let jwtToken = KeyChainPK().loadPK(key: ConstantsApp.CONS_TOKEN_ID_KEYCHAIN)
-        request.addValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+        request.addValue("\(HttpMethods.bearer) \(jwtToken)", forHTTPHeaderField: HttpMethods.authorization)
         
         do {
             //Realizar la solicitud

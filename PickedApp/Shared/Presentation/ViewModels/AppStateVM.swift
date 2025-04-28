@@ -14,7 +14,7 @@ final class AppStateVM {
     
     // MARK: - Properties
     
-    var status = Status.none // Current app state (loading, login, etc.)
+   var status = Status.none // Current app state (loading, login, etc.)
     var tokenJWT: String = "" // Auth token
     var loginError: String? // Login error message
     var userProfileData = UserProfile(name: "", email: "", role: "")
