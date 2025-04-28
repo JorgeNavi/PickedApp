@@ -18,6 +18,7 @@ final class AppStateVM {
     var tokenJWT: String = "" // Auth token
     var loginError: String? // Login error message
     var userProfileData = UserProfile(name: "", email: "", role: "")
+    var isLoading: Bool = false
     
     @ObservationIgnored
     private var loginUseCase: LoginUseCaseProtocol

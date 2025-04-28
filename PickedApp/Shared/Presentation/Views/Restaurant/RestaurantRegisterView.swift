@@ -126,30 +126,34 @@ struct RestaurantRegisterView: View {
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
-    
                 
-                CustomButtonView(title: "Register", color: .secondaryColor) {
-                    print("🔘 Botón presionado")
-                    
-                    
-                    Task {
-                        try await viewModel.restaurantRegister(
-                            email: email,
-                            password: password,
-                            role: "restaurant",
-                            restaurantName: restaurantName,
-                            info: info,
-                            address: address,
-                            country: country,
-                            city: city,
-                            zipCode: zipCode,
-                            name: name,
-                            photo: selectedPhotoData
-                        )
+                if viewModel.isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .scaleEffect(1.5)
+                        .padding()
+                } else {
+                    CustomButtonView(title: "Register", color: .secondaryColor) {
+                        print("🔘 Botón presionado")
+                        
+                        
+                        Task {
+                            try await viewModel.restaurantRegister(
+                                email: email,
+                                password: password,
+                                role: "restaurant",
+                                restaurantName: restaurantName,
+                                info: info,
+                                address: address,
+                                country: country,
+                                city: city,
+                                zipCode: zipCode,
+                                name: name,
+                                photo: selectedPhotoData
+                            )
+                        }
                     }
                 }
-                
-                
             }
             // Handle changes in the image picker
             .onChange(of: pickerItem) { _, newItem in
