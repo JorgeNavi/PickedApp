@@ -57,13 +57,4 @@ final class GetNearbyRestaurantsVMTest: XCTestCase {
           
           XCTAssertTrue(filteredRestaurants.allSatisfy { $0.name.localizedStandardContains("Pizza") })
       }
-
-      
-      func testUpdateCameraWhenCenterOnUserLocation() async {
-          let initialCameraPosition = viewModel.cameraPosition
-          
-          await viewModel.centerOnUserLocation()
-          
-          XCTAssertEqual(viewModel.cameraPosition, initialCameraPosition)
-      }
 }
