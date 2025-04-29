@@ -1,9 +1,3 @@
-//
-//  RestaurantMapDetailView.swift
-//  PickedApp
-//
-//  Created by Kevin Heredia on 22/4/25.
-//
 
 import SwiftUI
 

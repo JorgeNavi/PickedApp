@@ -22,13 +22,13 @@ struct ErrorView: View {
                 .background(Color.red)
             VStack {
                 
-                // Imagen error
+                //Imagen error
                 Image(systemName: "xmark.circle.fill")
                     .font(.system(size: 80))
                     .foregroundStyle(.white)
                     .padding(.bottom)
                 
-                // Texto
+                //Texto
                 Text("OOOOPS!")
                     .font(.title)
                     .padding(.bottom, 50)
@@ -40,7 +40,7 @@ struct ErrorView: View {
                     .foregroundStyle(.white)
                     .padding(.bottom, 50)
                 
-                // Boton Regresar
+                //Boton Regresar
                 Button {
                     appState.status = .login
                 } label: {
@@ -52,8 +52,8 @@ struct ErrorView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .shadow(radius: 7, x: 7, y: 7)
                 }
-            } // fin vstack
-        } // fin zstack
+            } //fin vstack
+        } //fin zstack
     }
 }
 
