@@ -1,17 +1,3 @@
-//
-//  RestaurantAnnotationView.swift
-//  PickedApp
-//
-//  Created by Kevin Heredia on 27/4/25.
-//
-
-
-//
-//  RestaurantAnnotationView.swift
-//  PickedApp
-//
-//  Created by Kevin Heredia on 26/4/25.
-//
 
 import SwiftUI
 

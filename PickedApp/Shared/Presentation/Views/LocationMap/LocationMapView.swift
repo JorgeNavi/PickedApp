@@ -1,12 +1,12 @@
 import SwiftUI
-import _MapKit_SwiftUI
+import MapKit
 
-// Vista que muestra el mapa con la ubicación del usuario y los restaurantes cercanos.
+//Vista que muestra el mapa con la ubicación del usuario y los restaurantes cercanos.
 struct LocationMapView: View {
     
-    @State var viewModel: GetNearbyRestaurantViewModel // ViewModel que maneja la lógica del mapa.
+    @State var viewModel: GetNearbyRestaurantViewModel //ViewModel que maneja la lógica del mapa.
     
-    // Inicializa la vista con un ViewModel opcional.
+    //Inicializa la vista con un ViewModel opcional.
     init(viewModel: GetNearbyRestaurantViewModel = GetNearbyRestaurantViewModel()) {
         self.viewModel = viewModel
     }
@@ -65,7 +65,7 @@ struct LocationMapView: View {
     }
 }
 
-// Vista previa para SwiftUI.
+//Vista previa para SwiftUI.
 #Preview {
     LocationMapView()
 }
