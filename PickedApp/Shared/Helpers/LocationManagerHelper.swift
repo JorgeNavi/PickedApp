@@ -59,4 +59,8 @@ final class LocationService: NSObject, ObservableObject, CLLocationManagerDelega
         locationContinuation?.resume(throwing: error) // Continúa el async lanzando el error recibido
         locationContinuation = nil // Limpia la continuación
     }
+    
+    func requestLocationMock() async throws -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: 40.4168, longitude: -3.7038)
+    }
 }

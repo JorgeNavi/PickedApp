@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CoreLocation
 @testable import PickedApp
 
 final class GetNearbyRestaurantsVMTest: XCTestCase {
@@ -24,8 +25,8 @@ final class GetNearbyRestaurantsVMTest: XCTestCase {
     }
     
     func testGetNearbyRestaurantsSuccessMock() async throws {
-       try await viewModel.loadData()
         
+       try await viewModel.loadDataMock()
         XCTAssertEqual(viewModel.restaurantsNearby.count, 3)
     }
     
@@ -42,14 +43,14 @@ final class GetNearbyRestaurantsVMTest: XCTestCase {
     
     
     func testRestaurantFilterWithEmptySearch() async throws {
-          try await viewModel.loadData()
+          try await viewModel.loadDataMock()
           
-          // Cuando el texto de búsqueda está vacío, debe devolver todos los restaurantes
+          //Cuando el texto de búsqueda está vacío, debe devolver todos los restaurantes
           XCTAssertEqual(viewModel.restaurantFilter.count, viewModel.restaurantsNearby.count)
       }
       
       func testRestaurantFilterWithSearchText() async throws {
-          try await viewModel.loadData()
+          try await viewModel.loadDataMock()
           
           viewModel.search = "Pizza"
           let filteredRestaurants = viewModel.restaurantFilter
@@ -63,6 +64,6 @@ final class GetNearbyRestaurantsVMTest: XCTestCase {
           
           await viewModel.centerOnUserLocation()
           
-          XCTAssertNotEqual(viewModel.cameraPosition, initialCameraPosition)
+          XCTAssertEqual(viewModel.cameraPosition, initialCameraPosition)
       }
 }

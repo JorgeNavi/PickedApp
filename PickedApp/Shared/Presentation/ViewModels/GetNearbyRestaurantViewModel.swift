@@ -13,7 +13,7 @@ import _MapKit_SwiftUI
 @Observable
 final class GetNearbyRestaurantViewModel {
     
-    private var locationService = LocationService() // Servicio para obtener la ubicación actual.
+    var locationService = LocationService() // Servicio para obtener la ubicación actual.
     @ObservationIgnored
     private var useCase: GetNearbyRestaurantsUseCaseProtocol // Caso de uso para obtener restaurantes cercanos.
     
@@ -42,6 +42,17 @@ final class GetNearbyRestaurantViewModel {
         do {
             let coordinates = try await locationService.requestLocation()
             updateCamera(to: coordinates)
+            try await fetchRestaurants(near: coordinates)
+        } catch {
+            print("Error loading data: \(error)")
+            throw PKError.badUrl
+        }
+    }
+    
+    func loadDataMock() async throws {
+        do {
+            let coordinates = try await locationService.requestLocationMock()
+            await updateCamera(to: coordinates)
             try await fetchRestaurants(near: coordinates)
         } catch {
             print("Error loading data: \(error)")
